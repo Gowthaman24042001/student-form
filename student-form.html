@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Form App</title>
+    <!-- Font Awesome Link -->
+    <script src="https://kit.fontawesome.com/1d02b46c83.js" crossorigin="anonymous"></script>
+  </head>
+
+  <!-- Style CSS -->
+  <style>
+    body {
+      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+      background-color: #f0ebf8;
+      margin: 0;
+      padding: 30px;
+    }
+    .todo-container {
+      max-width: 800px;
+      background-color: white;
+      margin: auto;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 30px #d1d1d1;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      width: 100%;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .student-form label {
+      /* margin-top: 50px; */
+      font-size: 16px;
+      font-weight: 400;
+      border: 1px solid rgb(223, 223, 223);
+      background-color: #a575f7;
+      padding: 8px 10px;
+      border-radius: 5px;
+      width: 21%;
+      color: white;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-left: 30px;
+    }
+    input:focus {
+      outline: none;
+    }
+    .input-field div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .radio-gender div {
+      width: 100%;
+      border: 1px solid #cfcfcf;
+      border-radius: 5px;
+      margin-left: 50px;
+      padding: 8px;
+    }
+    /* .radio-gender div label{
+        text-align: center;
+    } */
+    .radio-gender label {
+      font-size: 16px;
+      font-weight: 400;
+      border: 1px solid rgb(223, 223, 223);
+      background-color: #a575f7
+      ;
+      padding: 5px 10px;
+      border-radius: 5px;
+      width: 50%; /* Set the same width as other labels */
+      color: white;
+      display: block; /* Ensure it takes the full width */
+      margin-bottom: 5px; /* Add some space below the label */
+    }
+    button {
+      width: 50%; /* Change from 20% to 50% */
+      padding: 8px 20px;
+      margin: auto;
+      background-color: #0e9a2f;
+      color: white;
+      cursor: pointer;
+      border: none;
+      border-radius: 100px;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #127c2a;
+    }
+    /** Table Styles Starts from here **/
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th,
+    table td {
+      border: 1px solid #cfcfcf;
+      text-align: center;
+      padding: 8px;
+    }
+    table th {
+      background-color: #f4f4f4;
+    }
+    .deleteButton {
+      color: white;
+      background-color: #dc3545;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .deleteButton:hover {
+      background-color: #c82333;
+    }
+  </style>
+  <!-- Style Ends -->
+  <body>
+    <div class="todo-container">
+      <h1>Student Form</h1>
+      <form  class="student-form" id="stu-form">
+        <div class="input-field">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Eg:Gowthaman" required />
+          </div>
+          <div>
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Eg:23" required />
+          </div>
+          <div class="radio-gender">
+            <label for="gender">Gender</label>
+            <div>
+              <label for="male">Male</label>
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                value="Male"
+                required
+              />
+            </div>
+            <div>
+              <label for="female">Female</label><br />
+              <input type="radio" id="female" name="gender" value="Female" />
+            </div>
+
+            <div>
+              <label for="Trans Gender">Trans</label><br />
+              <input type="radio" id="Trasngender" name="gender" value="Trans gender" />
+            </div>
+          </div>
+          <div>
+            <label for="course">Course</label>
+            <select id="course" required>
+              <option value="Python">Python</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="HTML/CSS">HTML/CSS</option>
+            </select>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Eg:johndoe@gmail.com"
+              required
+            />
+          </div>
+          
+          <div style="display: flex; justify-content: center">
+            <button id="submit-button" class="submit-button">Submit</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Student Table Id Created -->
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>COURSE</th>
+            <th>GENDER</th>
+            <th>EMAIL</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      document
+        .getElementById("submit-button")
+        .addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the default form submission behavior
+          const name = document.getElementById("name").value;
+          const age = document.getElementById("age").value;
+          const gender = document.querySelector(
+            'input[name="gender"]:checked'
+          )?.value;
+          const course = document.getElementById("course").value;
+          const email = document.getElementById("email").value;
+
+          if (name && age && gender && course && email) {
+            const table = document
+              .getElementById("studentTable")
+              .querySelector("tbody");
+            const newRow = table.insertRow();
+
+            newRow.innerHTML = `
+      <td>${name}</td>
+      <td>${age}</td>
+      <td>${course}</td>
+      <td>${gender}</td>
+      <td>${email}</td>
+      <td><i class="fa-solid fa-trash-can deleteButton"></i></td>
+    `;
+            document.getElementById("stu-form").reset();
+
+            newRow
+              .querySelector(".deleteButton")
+              .addEventListener("click", function () {
+                table.deleteRow(newRow.rowIndex - 1);
+              });
+          } else {
+            alert("Please fill out all fields.");
+          }
+        });
+    </script>
+  </body>
+</html>
